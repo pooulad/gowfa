@@ -11,6 +11,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/pooulad/gowfa/model"
+	util "github.com/pooulad/gowfa/util/colorize"
 )
 
 func main() {
@@ -67,14 +68,14 @@ func main() {
 		message := fmt.Sprintf("%s -- %.0fC, %.0f%%, %s\n",
 			date.Format("15:04"),
 			hour.TimeC,
-			hour.ChainOfRain,
+			hour.ChanceOfRain,
 			hour.Condition.Text,
 		)
 
-		if hour.ChainOfRain < 40 {
-			fmt.Print(message)
+		if hour.ChanceOfRain < 40 {
+			util.Colorize(util.ColorRed, message)
 		} else {
-			fmt.Print(message)
+			util.Colorize(util.ColorReset, message)
 		}
 	}
 }
