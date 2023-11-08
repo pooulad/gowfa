@@ -1,19 +1,19 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/pooulad/gowfa/model"
+	"github.com/pooulad/gowfa/cmd/cli"
 	util "github.com/pooulad/gowfa/util/colorize"
 )
+
 
 func main() {
 	log.SetFlags(0)
@@ -36,6 +36,11 @@ func main() {
 	}
 	q := os.Args[1]
 
+	fmt.Println(os.Args)
+	
+	useApi := flag.Bool("api", false, "choose version of programm(api and cli mode)")
+	flag.Parse()
+
 	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, q))
 	if err != nil {
 		log.Fatal(errors.New("error happend from weather api.please try again later"))
@@ -50,41 +55,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(*useApi)
 
-	var weather model.Weather
-
-	err = json.Unmarshal(body, &weather)
-	if err != nil {
-		log.Fatal(err)
+	if *useApi {
+		return
 	}
-
-	location, current, hours := weather.Location, weather.Current, weather.Forecast.ForecastDay[0].Hour
-
-	CurrentMessage := fmt.Sprintf("Name:%s - Country:%s - Current temp:%.0fC - Text:%s - Lat & Lon:%.2f-%.2f - Localtime:%s\n",
-		location.Name,
-		location.Coutry,
-		current.TempC,
-		current.Condition.Text,
-		location.Lat,
-		location.Lon,
-		location.LocalTime,
-	)
-	util.Colorize(util.ColorGreen,CurrentMessage)
-
-	for _, hour := range hours {
-		date := time.Unix(hour.TimeEpoch, 0)
-
-		message := fmt.Sprintf("Time:%s - Temp:%.0fC - Chance of rain:%.0f%% - Text:%s\n",
-			date.Format("15:04"),
-			hour.TempC,
-			hour.ChanceOfRain,
-			hour.Condition.Text,
-		)
-
-		if hour.ChanceOfRain < 40 {
-			util.Colorize(util.ColorRed, message)
-		} else {
-			util.Colorize(util.ColorReset, message)
-		}
-	}
+	cli.CliInit(body)
 }
