@@ -1,17 +1,25 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
+	"github.com/pooulad/gowfa/model"
 )
 
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("gowfa⛈  => error happend: ")
+
+	// run api version
+	// run terminal version
+	// with flag -api
 
 	err := godotenv.Load(".env")
 	if err != nil {
