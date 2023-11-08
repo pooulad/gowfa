@@ -20,3 +20,10 @@ func main() {
 
 	apiKey := os.Getenv("WEATHER_API_KEY")
 
+	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=Tehran", apiKey))
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res.Body)
+}
