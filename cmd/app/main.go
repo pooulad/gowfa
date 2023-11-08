@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/pooulad/gowfa/cmd/cli"
+	"github.com/pooulad/gowfa/pkg/readFlag"
 	util "github.com/pooulad/gowfa/util/colorize"
 )
 
@@ -27,21 +27,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	apiKey := os.Getenv("WEATHER_API_KEY")
 
-	if len(os.Args) < 2 {
-		util.Colorize(util.ColorRed, "Please add city name. example: Paris")
+	flags,err := readFlag.ReadFlag()
+	if err != nil {
+		util.Colorize(util.ColorRed, err.Error())
 		return
 	}
-	q := os.Args[1]
 
-	fmt.Println(os.Args)
-	
-	useApi := flag.Bool("api", false, "choose version of programm(api and cli mode)")
-	flag.Parse()
-
-	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, q))
+	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, flags.City))
 	if err != nil {
 		log.Fatal(errors.New("error happend from weather api.please try again later"))
 	}
@@ -55,9 +49,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(*useApi)
 
-	if *useApi {
+	if flags.Api {
 		return
 	}
 	cli.CliInit(body)
