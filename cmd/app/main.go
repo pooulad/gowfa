@@ -36,7 +36,7 @@ func main() {
 	}
 	q := os.Args[1]
 
-	res, _ := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, q))
+	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, q))
 	if err != nil {
 		log.Fatal(errors.New("error happend from weather api.please try again later"))
 	}
@@ -70,7 +70,7 @@ func main() {
 	for _, hour := range hours {
 		date := time.Unix(hour.TimeEpoch, 0)
 
-		message := fmt.Sprintf("%s -- %.0fC, %.0f%%, %s\n",
+		message := fmt.Sprintf("time:%s - temp:%.0fC - chance of rain:%.0f%% - text:%s\n",
 			date.Format("15:04"),
 			hour.TempC,
 			hour.ChanceOfRain,
