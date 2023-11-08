@@ -64,11 +64,17 @@ func main() {
 	for _, hour := range hours {
 		date := time.Unix(hour.TimeEpoch, 0)
 
-		fmt.Printf("%s - %.0fC, %.0f, %s\n",
-			date.Format("14:00"),
+		message := fmt.Sprintf("%s -- %.0fC, %.0f%%, %s\n",
+			date.Format("15:04"),
 			hour.TimeC,
 			hour.ChainOfRain,
 			hour.Condition.Text,
 		)
+
+		if hour.ChainOfRain < 40 {
+			fmt.Print(message)
+		} else {
+			fmt.Print(message)
+		}
 	}
 }
