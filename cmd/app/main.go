@@ -26,5 +26,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		log.Fatal("weather api response error! please try again.")
+	}
+
 	fmt.Println(res.Body)
 }
