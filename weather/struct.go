@@ -12,3 +12,7 @@ type Current struct {
 	Condition Condition `json:"condition"`
 }
 
+type Condition struct {
+	Text string `json:"text"`
+}
+
