@@ -33,8 +33,8 @@ type ForecastDay struct {
 }
 
 type Hour struct {
-	TimeEpoch   int64     `json:"time_epoch"`
-	TimeC       float64     `json:"time_c"`
-	Condition   Condition `json:"condition"`
+	TimeEpoch    int64     `json:"time_epoch"`
+	TempC        float64   `json:"temp_c"`
+	Condition    Condition `json:"condition"`
 	ChanceOfRain float64   `json:"chance_of_rain"`
 }
