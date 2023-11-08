@@ -1,0 +1,5 @@
+package colorize
+
+func Colorize(){
+
+}
