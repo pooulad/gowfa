@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/joho/godotenv"
+)
 
 func main() {
-	fmt.Println("new golang app...")
-}
+	log.SetFlags(0)
+	log.SetPrefix("gowfa => error happend: ")
+
