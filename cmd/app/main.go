@@ -40,5 +40,35 @@ func main() {
 		log.Fatal("weather api response error! please try again.")
 	}
 
-	fmt.Println(res.Body)
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var weather model.Weather
+
+	err = json.Unmarshal(body, &weather)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	location, current, hours := weather.Location, weather.Current, weather.Forecast.ForecastDay[0].Hour
+
+	fmt.Printf("%s, %s, %.0fC, %s\n",
+		location.Name,
+		location.Coutry,
+		current.TempC,
+		current.Condition.Text,
+	)
+
+	for _, hour := range hours {
+		date := time.Unix(hour.TimeEpoch, 0)
+
+		fmt.Printf("%s - %.0fC, %.0f, %s\n",
+			date.Format("14:00"),
+			hour.TimeC,
+			hour.ChainOfRain,
+			hour.Condition.Text,
+		)
+	}
 }
