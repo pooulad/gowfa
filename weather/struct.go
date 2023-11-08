@@ -20,3 +20,7 @@ type Forecast struct {
 	ForecastDay []ForecastDay `json:"forecastday"`
 }
 
+type ForecastDay struct {
+	Hour []Hour `json:"hour"`
+}
+
