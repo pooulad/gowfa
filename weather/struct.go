@@ -6,3 +6,9 @@ type Location struct {
 	Lon       string `json:"lon"`
 	LocalTime string `json:"localtime"`
 }
+
+type Current struct {
+	TempC     float64   `json:"temp_c"`
+	Condition Condition `json:"condition"`
+}
+
