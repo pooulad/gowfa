@@ -1,4 +1,4 @@
-package colorize
+package util
 
 import "fmt"
 
@@ -14,5 +14,5 @@ const (
 )
 
 func Colorize(color Color, message string) {
-	fmt.Println(string(color) + message, string(ColorReset))
+	fmt.Println(string(color)+message, string(ColorReset))
 }
