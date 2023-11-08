@@ -16,3 +16,7 @@ type Condition struct {
 	Text string `json:"text"`
 }
 
+type Forecast struct {
+	ForecastDay []ForecastDay `json:"forecastday"`
+}
+
