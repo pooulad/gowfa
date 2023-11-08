@@ -36,5 +36,5 @@ type Hour struct {
 	TimeEpoch   int64     `josn:"time_epoch"`
 	TimeC       float64     `josn:"time_c"`
 	Condition   Condition `josn:"condition"`
-	ChainOfRain float64   `josn:"chain_of_rain"`
+	ChanceOfRain float64   `josn:"chance_of_rain"`
 }
