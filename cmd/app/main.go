@@ -60,17 +60,21 @@ func main() {
 
 	location, current, hours := weather.Location, weather.Current, weather.Forecast.ForecastDay[0].Hour
 
-	fmt.Printf("%s, %s, %.0fC, %s\n",
+	CurrentMessage := fmt.Sprintf("Name:%s - Country:%s - Current temp:%.0fC - Text:%s - Lat & Lon:%.2f-%.2f - Localtime:%s\n",
 		location.Name,
 		location.Coutry,
 		current.TempC,
 		current.Condition.Text,
+		location.Lat,
+		location.Lon,
+		location.LocalTime,
 	)
+	util.Colorize(util.ColorGreen,CurrentMessage)
 
 	for _, hour := range hours {
 		date := time.Unix(hour.TimeEpoch, 0)
 
-		message := fmt.Sprintf("time:%s - temp:%.0fC - chance of rain:%.0f%% - text:%s\n",
+		message := fmt.Sprintf("Time:%s - Temp:%.0fC - Chance of rain:%.0f%% - Text:%s\n",
 			date.Format("15:04"),
 			hour.TempC,
 			hour.ChanceOfRain,
