@@ -1,6 +1,6 @@
 package weather
 
-type Wheather struct {
+type Weather struct {
 	Location Location `json:"location"`
 	Current  Current  `json:"current"`
 	Forecast Forecast `json:"forecast"`
