@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -28,13 +29,17 @@ func main() {
 	}
 
 	apiKey := os.Getenv("WEATHER_API_KEY")
+
+	if len(os.Args) < 2 {
+		util.Colorize(util.ColorRed, "Please add city name. example: Paris")
+		return
+	}
 	q := os.Args[1]
 
-	res, err := http.Get(fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?key=%v&q=%v", apiKey, q))
+	res, _ := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, q))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(errors.New("error happend from weather api.please try again later"))
 	}
-
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
@@ -67,7 +72,7 @@ func main() {
 
 		message := fmt.Sprintf("%s -- %.0fC, %.0f%%, %s\n",
 			date.Format("15:04"),
-			hour.TimeC,
+			hour.TempC,
 			hour.ChanceOfRain,
 			hour.Condition.Text,
 		)
