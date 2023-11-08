@@ -11,18 +11,19 @@ import (
 
 func main() {
 	log.SetFlags(0)
-	log.SetPrefix("gowfa => error happend: ")
+	log.SetPrefix("gowfa⛈  => error happend: ")
 
 	err := godotenv.Load(".env")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	apiKey := os.Getenv("WEATHER_API_KEY")
+	q := os.Args[1]
 
-	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=Tehran", apiKey))
+	res, err := http.Get(fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?key=%v&q=%v", apiKey, q))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println(res.Body)
