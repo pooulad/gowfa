@@ -9,11 +9,11 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/pooulad/gowfa/cmd/api"
 	"github.com/pooulad/gowfa/cmd/cli"
 	"github.com/pooulad/gowfa/pkg/readFlag"
 	util "github.com/pooulad/gowfa/util/colorize"
 )
-
 
 func main() {
 	log.SetFlags(0)
@@ -29,7 +29,7 @@ func main() {
 	}
 	apiKey := os.Getenv("WEATHER_API_KEY")
 
-	flags,err := readFlag.ReadFlag()
+	flags, err := readFlag.ReadFlag()
 	if err != nil {
 		util.Colorize(util.ColorRed, err.Error())
 		return
@@ -51,7 +51,8 @@ func main() {
 	}
 
 	if flags.Api {
-		return
+		api.Init()
+	} else {
+		cli.Init(body)
 	}
-	cli.CliInit(body)
 }
