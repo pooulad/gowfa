@@ -1,11 +1,7 @@
 package main
 
 import (
-	"errors"
-	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -19,9 +15,6 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix("gowfa⛈  => error happend: ")
 
-	// run api version
-	// run terminal version
-	// with flag -api
 
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -35,24 +28,9 @@ func main() {
 		return
 	}
 
-	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, flags.City))
-	if err != nil {
-		log.Fatal(errors.New("error happend from weather api.please try again later"))
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != 200 {
-		log.Fatal("weather api response error! please try again.")
-	}
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	if flags.Api {
-		api.Init()
+		api.Init(flags,apiKey)
 	} else {
-		cli.Init(body)
+		cli.Init(flags,apiKey)
 	}
 }
