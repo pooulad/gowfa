@@ -1,8 +1,11 @@
 package api
 
-import "fmt"
+import (
+	"fmt"
 
-func Init(){
+	"github.com/pooulad/gowfa/pkg/readFlag"
+)
+
+func Init(flags *readFlag.FlagReturns, apiKey string) {
 	fmt.Println("api ready to gooooooooo")
 }
-
