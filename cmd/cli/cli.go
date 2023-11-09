@@ -10,7 +10,7 @@ import (
 	util "github.com/pooulad/gowfa/util/colorize"
 )
 
-func CliInit(body []byte) {
+func Init(body []byte) {
 	var weather model.Weather
 
 	err := json.Unmarshal(body, &weather)
