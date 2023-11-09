@@ -29,7 +29,7 @@ func main() {
 	}
 
 	if flags.Api {
-		api.Init(flags,apiKey)
+		api.Init()
 	} else {
 		cli.Init(flags,apiKey)
 	}
