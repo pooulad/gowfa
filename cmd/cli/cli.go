@@ -2,18 +2,37 @@ package cli
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/pooulad/gowfa/model"
+	"github.com/pooulad/gowfa/pkg/readFlag"
 	util "github.com/pooulad/gowfa/util/colorize"
 )
 
-func Init(body []byte) {
+func Init(flags *readFlag.FlagReturns ,apiKey string) {
+	res, err := http.Get(fmt.Sprintf("http://api.weatherapi.com/v1/forecast.json?key=%v&q=%s", apiKey, flags.City))
+	if err != nil {
+		log.Fatal(errors.New("error happend from weather api.please try again later"))
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		log.Fatal("weather api response error! please try again.")
+	}
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	var weather model.Weather
 
-	err := json.Unmarshal(body, &weather)
+	err = json.Unmarshal(body, &weather)
 	if err != nil {
 		log.Fatal(err)
 	}
